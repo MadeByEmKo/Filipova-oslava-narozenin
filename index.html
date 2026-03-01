@@ -107,37 +107,44 @@
 
     <section id="misto" class="py-24 bg-charcoal relative z-10">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
                 
-                <div class="order-2 lg:order-1 relative group">
-                    <div class="aspect-square rounded-sm overflow-hidden glass-panel border border-white/10 relative">
+                <div class="order-2 lg:order-1 relative group w-full">
+                    <div class="aspect-[3/2] rounded-sm overflow-hidden glass-panel border border-white/10 relative shadow-2xl">
                         <iframe src="https://nakumburaku.cz/" 
-                                class="w-full h-full border-none pointer-events-none md:pointer-events-auto" 
+                                class="w-[133%] h-[133%] border-none pointer-events-none" 
                                 title="Web Na Kumburáku"
-                                style="zoom: 0.75; -moz-transform: scale(0.75); -moz-transform-origin: 0 0;">
+                                style="transform: scale(0.75); transform-origin: 0 0;">
                         </iframe>
                         
                         <a href="https://nakumburaku.cz/" target="_blank" rel="noopener noreferrer" 
-                           class="absolute inset-0 z-20 bg-transparent hover:bg-black/10 transition-colors flex items-end justify-center pb-6">
-                            <span class="opacity-0 group-hover:opacity-100 transition-opacity bg-wood text-white px-6 py-2 text-sm uppercase tracking-widest shadow-xl">
-                                Otevřít web v novém okně
-                            </span>
+                           class="absolute inset-0 z-20 bg-transparent hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                            <div class="opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                                <span class="bg-wood text-white px-6 py-2 text-xs uppercase tracking-[0.2em] font-bold shadow-2xl">
+                                    Přejít na web
+                                </span>
+                            </div>
                         </a>
                     </div>
-                    <div class="absolute -bottom-4 -right-4 w-full h-full border border-wood/30 -z-10 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500"></div>
+                    <div class="absolute -bottom-2 -right-2 w-full h-full border-r border-b border-wood/20 -z-10 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform"></div>
                 </div>
     
                 <div class="order-1 lg:order-2 text-left">
-                    <h2 class="text-5xl font-serif font-bold text-white mb-8 leading-tight">Na Kumburáku</h2>
-                    <div class="space-y-6 text-lg text-sand/70 font-light leading-relaxed">
-                        <p class="text-sand/90 font-medium italic font-serif text-xl border-l-2 border-wood pl-6 py-2">
-                            Místo, kde se zastaví čas. Chalupa Na Kumburáku v Českém ráji se stane na jeden víkend naším útočištěm.
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-8 h-[1px] bg-wood"></div>
+                        <span class="uppercase tracking-widest text-xs text-wood font-semibold">Lokalita</span>
+                    </div>
+                    <h2 class="text-4xl lg:text-5xl font-serif font-bold text-white mb-6 leading-tight">Na Kumburáku</h2>
+                    <div class="space-y-5 text-base lg:text-lg text-sand/70 font-light leading-relaxed">
+                        <p class="text-sand/90 font-medium italic font-serif text-lg border-l-2 border-wood pl-5 py-1">
+                            Místo, kde se zastaví čas. Chalupa v Českém ráji se stane na jeden víkend naším útočištěm.
                         </p>
-                        <p>Připravte se na víkend plný příjemného setkání, dobré nálady, chutného jídla i pití a v neposlední řadě zaslouženého relaxu. Čekají nás večery u ohně, relax v soukromém wellness nebo den strávený u bazénu.</p>
-                        <p>Odpojte se od každodenního shonu a přijeďte s námi oslavit toto významné životní jubileum.</p>
-                        <p>Pokud nemáte hlídání a chcete si vzít děti s sebou, pak využijete i v zadní části zahrady hrací prvky pro děti.</p>
+                        <p>Připravte se na víkend plný příjemného setkání, dobré nálady, chutného jídla i pití a zaslouženého relaxu. Čekají nás večery u ohně, soukromé wellness nebo den u bazénu.</p>
+                        <p>Odpojte se od shonu a přijeďte s námi oslavit toto životní jubileum.</p>
+                        <p class="text-sm italic">K dispozici jsou i hrací prvky pro děti v zadní části zahrady.</p>
                     </div>
                 </div>
+    
             </div>
         </div>
     </section>
@@ -188,7 +195,7 @@
                             <option value="2">Celý víkend (2 noci)</option>
                             <option value="1">1 Noc PÁ/SO</option>
                             <option value="1">1 Noc SO/NE</option>
-                            <option value="0">Pouze posedím SO</option>
+                            <option value="0">Pouze posedím v sobotu.</option>
                         </select>
                     </div>
                     <textarea placeholder="Poznámky (děti na samostatném lůžku připočítejte do celkového počtu osob, děti na sdíleném lůžku napište do poznámky kvůli jídlu.)" rows="3" class="w-full px-4 py-3 bg-charcoal/40 border border-white/10 text-white outline-none focus:border-wood"></textarea>
