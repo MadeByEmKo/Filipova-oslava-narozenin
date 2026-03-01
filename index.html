@@ -6,17 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>eFko50 | Pánská romance v přírodě</title>
 
-    <!-- Google Fonts: Playfair Display for elegant headings, Inter for clean body text -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -41,501 +36,178 @@
             }
         }
     </script>
+    <style>
+        /* Styl pro modal (vyskakovací okno) */
+        #photo-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(5px);
+            cursor: zoom-out;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        #modal-img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+    </style>
 </head>
 
 <body class="bg-charcoal text-sand font-sans antialiased selection:bg-wood selection:text-white">
 
-    <!-- Inline SVG Mandala (Background) -->
-    <svg class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vh] md:w-[80vw] md:h-[80vw] opacity-5 pointer-events-none z-0"
-        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">
-        <g stroke="currentColor" stroke-width="1.5" fill="none" transform="translate(500, 500)">
-            <circle r="400" />
-            <circle r="380" stroke-dasharray="8 8" />
-            <circle r="300" />
-            <circle r="200" stroke-width="2" />
-            <circle r="100" />
-            <circle r="50" stroke-width="3" />
+    <div id="photo-modal" onclick="closeModal()">
+        <img id="modal-img" src="" alt="Zvětšený náhled">
+        <p class="absolute bottom-6 text-white/50 text-sm uppercase tracking-widest">Kliknutím zavřete</p>
+    </div>
 
+    <svg class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vh] md:w-[80vw] md:h-[80vw] opacity-5 pointer-events-none z-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">
+        <g stroke="currentColor" stroke-width="1.5" fill="none" transform="translate(500, 500)">
+            <circle r="400" /><circle r="300" /><circle r="200" /><circle r="100" />
             <g id="rays">
                 <line x1="0" y1="50" x2="0" y2="400" />
-                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(30)" />
-                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(60)" />
+                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(45)" />
                 <line x1="0" y1="50" x2="0" y2="400" transform="rotate(90)" />
-                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(120)" />
-                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(150)" />
+                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(135)" />
                 <line x1="0" y1="50" x2="0" y2="400" transform="rotate(180)" />
-                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(210)" />
-                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(240)" />
+                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(225)" />
                 <line x1="0" y1="50" x2="0" y2="400" transform="rotate(270)" />
-                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(300)" />
-                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(330)" />
-            </g>
-
-            <g id="petals" fill="currentColor" fill-opacity="0.05">
-                <path d="M0 -100 Q 40 -150 0 -200 Q -40 -150 0 -100" />
-                <path d="M0 -100 Q 40 -150 0 -200 Q -40 -150 0 -100" transform="rotate(60)" />
-                <path d="M0 -100 Q 40 -150 0 -200 Q -40 -150 0 -100" transform="rotate(120)" />
-                <path d="M0 -100 Q 40 -150 0 -200 Q -40 -150 0 -100" transform="rotate(180)" />
-                <path d="M0 -100 Q 40 -150 0 -200 Q -40 -150 0 -100" transform="rotate(240)" />
-                <path d="M0 -100 Q 40 -150 0 -200 Q -40 -150 0 -100" transform="rotate(300)" />
-            </g>
-
-            <g id="diamonds">
-                <polygon points="0,-200 20,-250 0,-300 -20,-250" />
-                <polygon points="0,-200 20,-250 0,-300 -20,-250" transform="rotate(30)" />
-                <polygon points="0,-200 20,-250 0,-300 -20,-250" transform="rotate(60)" />
-                <polygon points="0,-200 20,-250 0,-300 -20,-250" transform="rotate(90)" />
-                <polygon points="0,-200 20,-250 0,-300 -20,-250" transform="rotate(120)" />
-                <polygon points="0,-200 20,-250 0,-300 -20,-250" transform="rotate(150)" />
-                <polygon points="0,-200 20,-250 0,-300 -20,-250" transform="rotate(180)" />
-                <polygon points="0,-200 20,-250 0,-300 -20,-250" transform="rotate(210)" />
-                <polygon points="0,-200 20,-250 0,-300 -20,-250" transform="rotate(240)" />
-                <polygon points="0,-200 20,-250 0,-300 -20,-250" transform="rotate(270)" />
-                <polygon points="0,-200 20,-250 0,-300 -20,-250" transform="rotate(300)" />
-                <polygon points="0,-200 20,-250 0,-300 -20,-250" transform="rotate(330)" />
+                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(315)" />
             </g>
         </g>
     </svg>
 
-    <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-pine/80 backdrop-blur-md border-b border-white/5 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <a href="#home"
-                    class="font-serif text-2xl font-bold tracking-widest text-sand hover:text-white transition-colors">
+                <a href="#home" class="font-serif text-2xl font-bold tracking-widest text-sand hover:text-white transition-colors">
                     eFko<span class="text-wood">50</span>
                 </a>
                 <div class="hidden md:flex space-x-8 items-center">
                     <a href="#home" class="text-sm font-medium tracking-wide hover:text-wood transition-colors">Domů</a>
-                    <a href="#misto"
-                        class="text-sm font-medium tracking-wide hover:text-wood transition-colors">Místo</a>
-                    <a href="#galerie"
-                        class="text-sm font-medium tracking-wide hover:text-wood transition-colors">Galerie</a>
-                    <a href="#rsvp"
-                        class="bg-wood text-white border border-wood hover:bg-transparent hover:text-wood px-6 py-2 rounded-sm text-sm font-semibold uppercase tracking-widest transition-all duration-300">Registrace</a>
+                    <a href="#misto" class="text-sm font-medium tracking-wide hover:text-wood transition-colors">Místo</a>
+                    <a href="#galerie" class="text-sm font-medium tracking-wide hover:text-wood transition-colors">Galerie</a>
+                    <a href="#rsvp" class="bg-wood text-white border border-wood hover:bg-transparent hover:text-wood px-6 py-2 rounded-sm text-sm font-semibold uppercase tracking-widest transition-all duration-300">Registrace</a>
                 </div>
-                <!-- Mobile menu button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-sand hover:text-white focus:outline-none">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu"
-            class="hidden md:hidden bg-pine/95 backdrop-blur-xl border-b border-white/5 absolute w-full">
-            <div class="px-4 pt-2 pb-6 flex flex-col space-y-4 items-center">
-                <a href="#home"
-                    class="mobile-link text-lg font-serif hover:text-wood transition-colors block py-2">Domů</a>
-                <a href="#misto"
-                    class="mobile-link text-lg font-serif hover:text-wood transition-colors block py-2">Místo konání</a>
-                <a href="#galerie"
-                    class="mobile-link text-lg font-serif hover:text-wood transition-colors block py-2">Galerie</a>
-                <a href="#rsvp"
-                    class="mobile-link bg-wood text-white px-8 py-3 rounded-sm text-sm font-semibold uppercase tracking-widest mt-4">Registrace</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <header id="home" class="relative min-h-screen flex flex-col justify-center items-center z-10 pt-20 hero-with-50">
-        <!-- CSS watermark "50" -->
         <span class="hero-watermark-50" aria-hidden="true">50</span>
-        <!-- Hero Background Image -->
         <div class="absolute inset-0 bg-hero-pattern bg-cover bg-center bg-no-repeat z-0">
-            <!-- Overlay gradient: very dark green/charcoal at bottom to blend with next section -->
             <div class="absolute inset-0 bg-gradient-to-b from-charcoal/70 via-pine/60 to-charcoal"></div>
         </div>
-
         <div class="relative z-10 text-center px-4 w-full max-w-5xl mx-auto flex flex-col items-center">
-            <h2 class="text-wood font-serif text-lg sm:text-xl md:text-2xl mb-6 uppercase tracking-[0.4em] font-light">
-                Pozvánka na narozeniny
-            </h2>
-            <h1 class="text-5xl sm:text-7xl md:text-9xl font-serif font-bold text-white mb-8 drop-shadow-2xl">
-                Filipových 50
-            </h1>
-
-            <div class="flex items-center justify-center space-x-6 mb-12 w-full">
-                <div class="h-[1px] w-16 sm:w-32 bg-wood/60"></div>
-                <div class="w-2 h-2 rotate-45 bg-wood"></div>
-                <div class="h-[1px] w-16 sm:w-32 bg-wood/60"></div>
-            </div>
-
-            <p class="text-2xl sm:text-3xl md:text-4xl font-light mb-16 tracking-[0.2em] text-sand/90 font-serif">
-                12. – 14. 6. 2026
-            </p>
-
-            <a href="#rsvp"
-                class="group relative px-8 py-4 bg-transparent text-white font-medium uppercase tracking-[0.2em] overflow-hidden rounded-sm border border-wood/50 transition-all hover:border-wood">
-                <div
-                    class="absolute inset-0 w-0 bg-wood transition-all duration-[250ms] ease-out group-hover:w-full -z-10">
-                </div>
+            <h2 class="text-wood font-serif text-lg sm:text-xl mb-6 uppercase tracking-[0.4em] font-light">Pozvánka na narozeniny</h2>
+            <h1 class="text-5xl sm:text-7xl md:text-9xl font-serif font-bold text-white mb-8 drop-shadow-2xl">Filipových 50</h1>
+            <p class="text-2xl sm:text-3xl font-light mb-16 tracking-[0.2em] text-sand/90 font-serif">12. – 14. 6. 2026</p>
+            <a href="#rsvp" class="group relative px-8 py-4 bg-transparent text-white font-medium uppercase tracking-[0.2em] overflow-hidden rounded-sm border border-wood/50 transition-all hover:border-wood">
+                <div class="absolute inset-0 w-0 bg-wood transition-all duration-[250ms] ease-out group-hover:w-full -z-10"></div>
                 <span class="z-10 relative">Potvrdit účast</span>
             </a>
-
-            <!-- Scroll indicator -->
-            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-                <a href="#misto" class="text-wood/70 hover:text-wood">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                            d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-                    </svg>
-                </a>
-            </div>
         </div>
     </header>
 
-    <!-- Místo Section -->
     <section id="misto" class="py-24 relative z-10 bg-charcoal">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-                <!-- Image side -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div class="order-2 lg:order-1 relative group">
-                    <div
-                        class="aspect-[4/5] sm:aspect-square lg:aspect-[4/5] rounded-sm overflow-hidden glass-panel relative z-10">
-                        <!-- Fallback background color if image is missing -->
-                        <div class="absolute inset-0 bg-slate mix-blend-multiply"></div>
-                        <img src="images/20240525_151505.jpg" alt="Příroda kolem srubu"
-                            class="w-full h-full object-cover mix-blend-overlay opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-in-out">
-                    </div>
-                    <!-- Decorative border frame offset -->
-                    <div
-                        class="absolute -bottom-6 -right-6 lg:-bottom-8 lg:-right-8 w-full h-full border border-wood/40 rounded-sm z-0 transform transition-transform group-hover:translate-x-2 group-hover:translate-y-2 duration-500">
+                    <div class="aspect-[4/5] rounded-sm overflow-hidden glass-panel relative z-10">
+                        <img src="images/20240525_151505.jpg" alt="Příroda" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105">
                     </div>
                 </div>
-
-                <!-- Text side -->
-                <div class="order-1 lg:order-2">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-[1px] bg-wood"></div>
-                        <span class="uppercase tracking-widest text-sm text-wood font-medium">Lokalita</span>
-                    </div>
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold mb-8 text-white leading-tight">
-                        Na Kumburáku
-                    </h2>
-
-                    <div class="space-y-6 text-lg sm:text-xl text-sand/70 font-light leading-relaxed">
-                        <p class="text-sand/90 font-medium italic font-serif text-xl border-l-2 border-wood pl-6 py-2">
-                            Místo, kde se zastaví čas. Chalupa Na Kumburáku v Českém ráji
-                            se stane na jeden víkend naším útočištěm.
-                        </p>
-                        <p>
-                            Připravte se na víkend plný příjemného setkání, dobré nálady, chutného jídla i pití a v neposlední řadě zaslouženého relaxu. 
-                            Čekají nás večery u ohně, relax v soukromém welness nebo den strávený opalováním u bazénu.
-                        </p>
-                        <p>
-                            Odpojte se od každodenního shonu, zanechte starosti doma a přijeďte s námi oslavit toto
-                            významné životní jubileum.
-                        </p>
-                        <p>
-                            Pokud nemáte hlídání a chcete si vzít děti s sebou, pak využijete i v zadní části zahrady hrací prvky pro děti.
-                        </p>
-                    </div>
-
-                    <div
-                        class="mt-12 flex items-center p-6 bg-white/5 border border-white/5 rounded-sm backdrop-blur-sm">
-                        <div
-                            class="w-14 h-14 rounded-full border border-wood/50 flex items-center justify-center text-wood mr-6 flex-shrink-0">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                </path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                        </div>
-                        <div>
-                            <h4 class="text-white font-serif font-semibold text-xl mb-1">Český ráj</h4>
-                            <span class="text-sand/60 text-sm tracking-wider uppercase">GPS souřadnice zašleme po
-                                registraci</span>
-                        </div>
-                    </div>
+                <div class="order-1 lg:order-2 text-left">
+                    <h2 class="text-4xl sm:text-6xl font-serif font-bold mb-8 text-white">Na Kumburáku</h2>
+                    <p class="text-lg text-sand/70 mb-6 leading-relaxed">Místo, kde se zastaví čas. Chalupa Na Kumburáku v Českém ráji se stane na jeden víkend naším útočištěm.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Galerie Section -->
     <section id="galerie" class="py-24 relative z-10 bg-pine">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            
             <div class="flex flex-col items-center mb-16 text-center">
-                <h2 class="text-4xl sm:text-5xl font-serif font-bold text-white mb-6">
-                    Filip • Fíla • Fík • Fykusa
-                </h2>
+                <h2 class="text-4xl sm:text-5xl font-serif font-bold text-white mb-6">Filip • Fíla • Fík • Fykusa</h2>
                 <div class="w-24 h-[1px] bg-wood/50"></div>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20230909_110710.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
+                <div class="group cursor-pointer aspect-[4/3] overflow-hidden rounded-sm bg-charcoal/50 border border-white/5 flex items-center justify-center" onclick="openModal(this.querySelector('img').src)">
+                    <img src="images/20230909_110710.jpg" alt="Vzpomínky" loading="lazy" class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110">
                 </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20231229_133309.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
+                <div class="group cursor-pointer aspect-[4/3] overflow-hidden rounded-sm bg-charcoal/50 border border-white/5 flex items-center justify-center" onclick="openModal(this.querySelector('img').src)">
+                    <img src="images/20231229_133309.jpg" alt="Vzpomínky" loading="lazy" class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110">
                 </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/IMG_20240109_195723_854.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
+                <div class="group cursor-pointer aspect-[4/3] overflow-hidden rounded-sm bg-charcoal/50 border border-white/5 flex items-center justify-center" onclick="openModal(this.querySelector('img').src)">
+                    <img src="images/IMG_20240109_195723_854.jpg" alt="Vzpomínky" loading="lazy" class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110">
                 </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20240119_120022.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
+                <div class="group cursor-pointer aspect-[4/3] overflow-hidden rounded-sm bg-charcoal/50 border border-white/5 flex items-center justify-center" onclick="openModal(this.querySelector('img').src)">
+                    <img src="images/20240119_120022.jpg" alt="Vzpomínky" loading="lazy" class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110">
                 </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20240125_200307.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
+                <div class="group cursor-pointer aspect-[4/3] overflow-hidden rounded-sm bg-charcoal/50 border border-white/5 flex items-center justify-center" onclick="openModal(this.querySelector('img').src)">
+                    <img src="images/20240125_200307.jpg" alt="Vzpomínky" loading="lazy" class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110">
                 </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20240204_135458.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
+                <div class="group cursor-pointer aspect-[4/3] overflow-hidden rounded-sm bg-charcoal/50 border border-white/5 flex items-center justify-center" onclick="openModal(this.querySelector('img').src)">
+                    <img src="images/20240204_135458.jpg" alt="Vzpomínky" loading="lazy" class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110">
                 </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20240204_174553.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
+                <div class="group cursor-pointer aspect-[4/3] overflow-hidden rounded-sm bg-charcoal/50 border border-white/5 flex items-center justify-center" onclick="openModal(this.querySelector('img').src)">
+                    <img src="images/20240204_174553.jpg" alt="Vzpomínky" loading="lazy" class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110">
                 </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20240428_142813.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
+                <div class="group cursor-pointer aspect-[4/3] overflow-hidden rounded-sm bg-charcoal/50 border border-white/5 flex items-center justify-center" onclick="openModal(this.querySelector('img').src)">
+                    <img src="images/20240428_142813.jpg" alt="Vzpomínky" loading="lazy" class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110">
                 </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20240510_164751.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
                 </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20240511_112637.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
-                </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20240525_151505.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
-                </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20240610_143712.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
-                </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20240701_200029.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
-                </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20240701_203217.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
-                </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20240717_200754.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
-                </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20240812_121009.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
-                </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20240814_112442.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
-                </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20240818_112153.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
-                </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20240824_144731.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
-                </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20241129_193215.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
-                </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20250207_104948.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
-                </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20250321_201507.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
-                </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/20250322_145328.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
-                </div>
-                <div class="group relative aspect-[4/3] overflow-hidden rounded-sm bg-charcoal border border-white/5">
-                    <img src="images/IMG-20250906-WA0011.jpg" alt="Vzpomínky" loading="lazy"
-                        class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
-                </div>
-            </div>
         </div>
     </section>
 
-    <!-- Registrace Section -->
     <section id="rsvp" class="py-24 relative z-10 overflow-hidden">
-        <!-- Parallax style background -->
         <div class="absolute inset-0 bg-nature-pattern bg-cover bg-center bg-fixed opacity-[0.05] z-0"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-pine opacity-80 z-0"></div>
-
         <div class="max-w-4xl mx-auto px-6 lg:px-8 relative z-10">
             <div class="text-center mb-16">
-                <span class="uppercase tracking-widest text-sm text-wood font-medium mb-4 block">Potvrzení Vaší
-                    účasti</span>
-                <h2 class="text-4xl sm:text-5xl font-serif font-bold text-white mb-6 drop-shadow-lg">Registrace</h2>
-                <p class="text-sand/70 text-lg max-w-2xl mx-auto font-light">Kapacita domu je omezená. Prosím, vyplňte
-                    následující formulář co nejdříve, abychom pro vás mohli vše perfektně připravit.</p>
+                <h2 class="text-4xl font-serif font-bold text-white mb-6">Registrace</h2>
             </div>
-
-            <!-- Glassmorphism Form Container -->
-            <div class="glass-panel p-8 sm:p-12 md:p-16 rounded-sm relative border-t-4 border-t-wood">
-                <!-- Inner decorative corners -->
-                <div class="absolute top-4 left-4 w-4 h-4 border-t border-l border-white/20"></div>
-                <div class="absolute top-4 right-4 w-4 h-4 border-t border-r border-white/20"></div>
-                <div class="absolute bottom-4 left-4 w-4 h-4 border-b border-l border-white/20"></div>
-                <div class="absolute bottom-4 right-4 w-4 h-4 border-b border-r border-white/20"></div>
-
+            <div class="glass-panel p-8 sm:p-12 rounded-sm border-t-4 border-t-wood">
                 <form id="rsvp-form" class="space-y-8">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <!-- Jméno a Příjmení -->
-                        <div class="space-y-2">
-                            <label for="name" class="block text-sm font-medium tracking-wide text-sand uppercase">Jméno
-                                a Příjmení *</label>
-                            <input type="text" id="name" name="name" required
-                                class="w-full px-4 py-3 bg-charcoal/60 border border-white/10 text-white placeholder-white/30 rounded-none focus:outline-none focus:border-wood focus:ring-1 focus:ring-wood transition-colors"
-                                placeholder="Váš celý podpis">
-                        </div>
-
-                        <!-- Přezdívka -->
-                        <div class="space-y-2">
-                            <label for="nickname"
-                                class="block text-sm font-medium tracking-wide text-sand uppercase">Přezdívka
-                                (volitelné)</label>
-                            <input type="text" id="nickname" name="nickname"
-                                class="w-full px-4 py-3 bg-charcoal/60 border border-white/10 text-white placeholder-white/30 rounded-none focus:outline-none focus:border-wood focus:ring-1 focus:ring-wood transition-colors"
-                                placeholder="Jak Vám říkáme">
-                        </div>
-
-                        <!-- Počet osob -->
-                        <div class="space-y-2">
-                            <label for="adults"
-                                class="block text-sm font-medium tracking-wide text-sand uppercase">Počet osob (včetně
-                                Vás) *</label>
-                            <input type="number" id="adults" name="adults" min="1" max="10" required
-                                class="w-full px-4 py-3 bg-charcoal/60 border border-white/10 text-white placeholder-white/30 rounded-none focus:outline-none focus:border-wood focus:ring-1 focus:ring-wood transition-colors"
-                                placeholder="1">
-                        </div>
-
-                        <!-- Počet nocí -->
-                        <div class="space-y-2">
-                            <label for="nights"
-                                class="block text-sm font-medium tracking-wide text-sand uppercase">Délka pobytu
-                                *</label>
-                            <select id="nights" name="nights" required
-                                class="w-full px-4 py-3 bg-charcoal/60 border border-white/10 text-white rounded-none focus:outline-none focus:border-wood focus:ring-1 focus:ring-wood transition-colors appearance-none"
-                                style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23e2e8f0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1rem top 50%; background-size: 0.65rem auto;">
-                                <option value="2" selected>2 noci (Celý víkend - Doporučeno)</option>
-                                <option value="1">1 noc (Pátek - Sobota)</option>
-                                <option value="1_sob">1 noc (Sobota - Neděle)</option>
-                                <option value="0">Přijedu jen na otočku (bez noclehu)</option>
-                            </select>
-                        </div>
+                        <input type="text" placeholder="Jméno a Příjmení *" required class="w-full px-4 py-3 bg-charcoal/60 border border-white/10 text-white focus:border-wood outline-none">
+                        <input type="text" placeholder="Přezdívka" class="w-full px-4 py-3 bg-charcoal/60 border border-white/10 text-white focus:border-wood outline-none">
                     </div>
-
-                    <!-- Děti a věk -->
-                    <div class="space-y-2">
-                        <label for="children" class="block text-sm font-medium tracking-wide text-sand uppercase">Děti:
-                            Počet a Věk (volitelné)</label>
-                        <textarea id="children" name="children" rows="2"
-                            class="w-full px-4 py-3 bg-charcoal/60 border border-white/10 text-white placeholder-white/30 rounded-none focus:outline-none focus:border-wood focus:ring-1 focus:ring-wood transition-colors resize-none"
-                            placeholder="Např. 2 děti, věk 6 a 10 let. Pokud cestujete bez dětí, nechte toto pole prázdné."></textarea>
-                    </div>
-
-                    <!-- Zvláštní požadavky -->
-                    <div class="space-y-2">
-                        <label for="notes" class="block text-sm font-medium tracking-wide text-sand uppercase">Strava /
-                            Zvláštní požadavky</label>
-                        <textarea id="notes" name="notes" rows="2"
-                            class="w-full px-4 py-3 bg-charcoal/60 border border-white/10 text-white placeholder-white/30 rounded-none focus:outline-none focus:border-wood focus:ring-1 focus:ring-wood transition-colors resize-none"
-                            placeholder="Alergie, vegetarián apod."></textarea>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="pt-6 relative">
-                        <div id="form-success"
-                            class="hidden absolute top-0 left-0 w-full h-full flex items-center justify-center bg-pine border border-wood/50 z-20 transition-all font-serif text-xl text-wood">
-                            Vaše účast byla zaznamenána. Těšíme se!
-                        </div>
-                        <button type="submit"
-                            class="w-full bg-wood text-white font-semibold py-4 px-8 rounded-none hover:bg-white hover:text-pine border border-transparent hover:border-white transition-all duration-500 uppercase tracking-[0.2em] transform active:scale-[0.98]">
-                            Registrace
-                        </button>
-                    </div>
+                    <button type="submit" class="w-full bg-wood text-white font-semibold py-4 uppercase tracking-widest hover:bg-white hover:text-pine transition-all">Registrace</button>
                 </form>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-[#0a0d0b] py-12 relative z-10 border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-6 text-center flex flex-col items-center">
-            <span class="font-serif text-2xl font-bold tracking-widest text-sand opacity-50 mb-6">
-                eFko<span class="text-wood">50</span>
-            </span>
-            <p class="text-sand/30 text-sm font-light uppercase tracking-widest">&copy; 2026 Oslava Filipových padesátin
-            </p>
-            <div class="mt-8 flex justify-center space-x-3">
-                <div class="w-1.5 h-1.5 rotate-45 bg-wood"></div>
-                <div class="w-1.5 h-1.5 rotate-45 bg-wood/50"></div>
-                <div class="w-1.5 h-1.5 rotate-45 bg-wood/20"></div>
-            </div>
-        </div>
+    <footer class="bg-[#0a0d0b] py-12 relative z-10 border-t border-white/5 text-center">
+        <span class="font-serif text-2xl font-bold tracking-widest text-sand opacity-50">eFko<span class="text-wood">50</span></span>
+        <p class="text-sand/30 text-sm mt-4 uppercase tracking-widest">&copy; 2026 Oslava Filipových padesátin</p>
     </footer>
 
-    <!-- Interactive Scripts -->
     <script>
-        // Form Submission Logic
-        document.getElementById('rsvp-form').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const btn = this.querySelector('button[type="submit"]');
-            const successMsg = document.getElementById('form-success');
+        function openModal(src) {
+            const modal = document.getElementById('photo-modal');
+            const modalImg = document.getElementById('modal-img');
+            modalImg.src = src;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Zamezí scrollování pozadí
+        }
 
-            // Show Success Message
-            successMsg.classList.remove('hidden');
-            successMsg.style.animation = 'fadeIn 0.5s ease-out forwards';
+        function closeModal() {
+            document.getElementById('photo-modal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Vrátí scrollování
+        }
 
-            setTimeout(() => {
-                successMsg.classList.add('hidden');
-                this.reset();
-            }, 4000);
-        });
-
-        // Mobile Menu Toggle
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
-
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        // Add scrolled class to nav for aesthetic depth when scrolling
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.classList.add('shadow-2xl');
-                nav.classList.replace('bg-pine/80', 'bg-charcoal/90');
-            } else {
-                nav.classList.remove('shadow-2xl');
-                nav.classList.replace('bg-charcoal/90', 'bg-pine/80');
-            }
+        // Zavření modalu klávesou Esc
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
         });
     </script>
-</body>
 
+</body>
 </html>
