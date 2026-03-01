@@ -37,24 +37,53 @@
         }
     </script>
     <style>
-        /* Styl pro modal (vyskakovací okno) */
+        /* Modal pro zvětšení */
         #photo-modal {
             display: none;
             position: fixed;
             inset: 0;
-            z-index: 100;
+            z-index: 1000;
             background-color: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(5px);
-            cursor: zoom-out;
+            backdrop-filter: blur(10px);
             align-items: center;
             justify-content: center;
             padding: 20px;
+            cursor: zoom-out;
         }
         #modal-img {
-            max-width: 100%;
+            max-width: 95%;
             max-height: 90vh;
             object-fit: contain;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        /* Galerie - aby byly všechny boxy stejně velké a fotky v nich celé */
+        .gallery-container {
+            display: grid;
+            grid-template-cols: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        @media (min-width: 640px) { .gallery-container { grid-template-cols: repeat(3, 1fr); } }
+        @media (min-width: 1024px) { .gallery-container { grid-template-cols: repeat(4, 1fr); } }
+
+        .gallery-item {
+            aspect-ratio: 4/3;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* KLÍČOVÉ: fotka se neořízne */
+            transition: transform 0.5s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -63,151 +92,120 @@
 
     <div id="photo-modal" onclick="closeModal()">
         <img id="modal-img" src="" alt="Zvětšený náhled">
-        <p class="absolute bottom-6 text-white/50 text-sm uppercase tracking-widest">Kliknutím zavřete</p>
     </div>
 
-    <svg class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vh] md:w-[80vw] md:h-[80vw] opacity-5 pointer-events-none z-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">
+    <svg class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vh] opacity-5 pointer-events-none z-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
         <g stroke="currentColor" stroke-width="1.5" fill="none" transform="translate(500, 500)">
             <circle r="400" /><circle r="300" /><circle r="200" /><circle r="100" />
-            <g id="rays">
-                <line x1="0" y1="50" x2="0" y2="400" />
-                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(45)" />
-                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(90)" />
-                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(135)" />
-                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(180)" />
-                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(225)" />
-                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(270)" />
-                <line x1="0" y1="50" x2="0" y2="400" transform="rotate(315)" />
-            </g>
         </g>
     </svg>
 
-    <nav class="fixed w-full z-50 bg-pine/80 backdrop-blur-md border-b border-white/5 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <a href="#home" class="font-serif text-2xl font-bold tracking-widest text-sand hover:text-white transition-colors">
-                    eFko<span class="text-wood">50</span>
-                </a>
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#home" class="text-sm font-medium tracking-wide hover:text-wood transition-colors">Domů</a>
-                    <a href="#misto" class="text-sm font-medium tracking-wide hover:text-wood transition-colors">Místo</a>
-                    <a href="#galerie" class="text-sm font-medium tracking-wide hover:text-wood transition-colors">Galerie</a>
-                    <a href="#rsvp" class="bg-wood text-white border border-wood hover:bg-transparent hover:text-wood px-6 py-2 rounded-sm text-sm font-semibold uppercase tracking-widest transition-all duration-300">Registrace</a>
-                </div>
+    <nav class="fixed w-full z-50 bg-pine/90 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#home" class="font-serif text-2xl font-bold tracking-widest text-sand">eFko<span class="text-wood">50</span></a>
+            <div class="hidden md:flex space-x-8 items-center text-sm uppercase tracking-widest font-medium">
+                <a href="#home" class="hover:text-wood transition-colors">Domů</a>
+                <a href="#misto" class="hover:text-wood transition-colors">Místo</a>
+                <a href="#galerie" class="hover:text-wood transition-colors">Galerie</a>
+                <a href="#rsvp" class="bg-wood text-white px-6 py-2 hover:bg-white hover:text-pine transition-all">Registrace</a>
             </div>
         </div>
     </nav>
 
-    <header id="home" class="relative min-h-screen flex flex-col justify-center items-center z-10 pt-20 hero-with-50">
-        <span class="hero-watermark-50" aria-hidden="true">50</span>
-        <div class="absolute inset-0 bg-hero-pattern bg-cover bg-center bg-no-repeat z-0">
+    <header id="home" class="relative min-h-screen flex flex-col justify-center items-center text-center px-4">
+        <div class="absolute inset-0 bg-hero-pattern bg-cover bg-center z-0">
             <div class="absolute inset-0 bg-gradient-to-b from-charcoal/70 via-pine/60 to-charcoal"></div>
         </div>
-        <div class="relative z-10 text-center px-4 w-full max-w-5xl mx-auto flex flex-col items-center">
-            <h2 class="text-wood font-serif text-lg sm:text-xl mb-6 uppercase tracking-[0.4em] font-light">Pozvánka na narozeniny</h2>
-            <h1 class="text-5xl sm:text-7xl md:text-9xl font-serif font-bold text-white mb-8 drop-shadow-2xl">Filipových 50</h1>
-            <p class="text-2xl sm:text-3xl font-light mb-16 tracking-[0.2em] text-sand/90 font-serif">12. – 14. 6. 2026</p>
-            <a href="#rsvp" class="group relative px-8 py-4 bg-transparent text-white font-medium uppercase tracking-[0.2em] overflow-hidden rounded-sm border border-wood/50 transition-all hover:border-wood">
-                <div class="absolute inset-0 w-0 bg-wood transition-all duration-[250ms] ease-out group-hover:w-full -z-10"></div>
-                <span class="z-10 relative">Potvrdit účast</span>
-            </a>
+        <div class="relative z-10">
+            <h2 class="text-wood font-serif text-xl mb-4 uppercase tracking-[0.4em]">Pozvánka</h2>
+            <h1 class="text-6xl md:text-9xl font-serif font-bold text-white mb-8">Filipových 50</h1>
+            <p class="text-2xl md:text-4xl font-serif text-sand/90">12. – 14. 6. 2026</p>
         </div>
     </header>
 
-    <section id="misto" class="py-24 relative z-10 bg-charcoal">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <section id="misto" class="py-24 bg-charcoal relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div class="order-2 lg:order-1 relative group">
-                    <div class="aspect-[4/5] rounded-sm overflow-hidden glass-panel relative z-10">
-                        <img src="images/20240525_151505.jpg" alt="Příroda" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105">
-                    </div>
+                <div class="aspect-square rounded-sm overflow-hidden glass-panel">
+                    <img src="images/20240525_151505.jpg" class="w-full h-full object-cover">
                 </div>
-                <div class="order-1 lg:order-2 text-left">
-                    <h2 class="text-4xl sm:text-6xl font-serif font-bold mb-8 text-white">Na Kumburáku</h2>
-                    <p class="text-lg text-sand/70 mb-6 leading-relaxed">Místo, kde se zastaví čas. Chalupa Na Kumburáku v Českém ráji se stane na jeden víkend naším útočištěm.</p>
+                <div>
+                    <h2 class="text-5xl font-serif font-bold text-white mb-8">Na Kumburáku</h2>
+                    <p class="text-xl text-sand/70 leading-relaxed border-l-2 border-wood pl-6 font-serif italic mb-8">
+                        Místo, kde se zastaví čas. Chalupa v Českém ráji se stane naším útočištěm.
+                    </p>
+                    <p class="text-lg text-sand/70 mb-4">Připravte se na víkend plný setkání, jídla, pití a relaxu u bazénu či wellness.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="galerie" class="py-24 relative z-10 bg-pine">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="flex flex-col items-center mb-16 text-center">
-                <h2 class="text-4xl sm:text-5xl font-serif font-bold text-white mb-6">Filip • Fíla • Fík • Fykusa</h2>
-                <div class="w-24 h-[1px] bg-wood/50"></div>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-                <div class="group cursor-pointer aspect-[4/3] overflow-hidden rounded-sm bg-charcoal/50 border border-white/5 flex items-center justify-center" onclick="openModal(this.querySelector('img').src)">
-                    <img src="images/20230909_110710.jpg" alt="Vzpomínky" loading="lazy" class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110">
-                </div>
-                <div class="group cursor-pointer aspect-[4/3] overflow-hidden rounded-sm bg-charcoal/50 border border-white/5 flex items-center justify-center" onclick="openModal(this.querySelector('img').src)">
-                    <img src="images/20231229_133309.jpg" alt="Vzpomínky" loading="lazy" class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110">
-                </div>
-                <div class="group cursor-pointer aspect-[4/3] overflow-hidden rounded-sm bg-charcoal/50 border border-white/5 flex items-center justify-center" onclick="openModal(this.querySelector('img').src)">
-                    <img src="images/IMG_20240109_195723_854.jpg" alt="Vzpomínky" loading="lazy" class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110">
-                </div>
-                <div class="group cursor-pointer aspect-[4/3] overflow-hidden rounded-sm bg-charcoal/50 border border-white/5 flex items-center justify-center" onclick="openModal(this.querySelector('img').src)">
-                    <img src="images/20240119_120022.jpg" alt="Vzpomínky" loading="lazy" class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110">
-                </div>
-                <div class="group cursor-pointer aspect-[4/3] overflow-hidden rounded-sm bg-charcoal/50 border border-white/5 flex items-center justify-center" onclick="openModal(this.querySelector('img').src)">
-                    <img src="images/20240125_200307.jpg" alt="Vzpomínky" loading="lazy" class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110">
-                </div>
-                <div class="group cursor-pointer aspect-[4/3] overflow-hidden rounded-sm bg-charcoal/50 border border-white/5 flex items-center justify-center" onclick="openModal(this.querySelector('img').src)">
-                    <img src="images/20240204_135458.jpg" alt="Vzpomínky" loading="lazy" class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110">
-                </div>
-                <div class="group cursor-pointer aspect-[4/3] overflow-hidden rounded-sm bg-charcoal/50 border border-white/5 flex items-center justify-center" onclick="openModal(this.querySelector('img').src)">
-                    <img src="images/20240204_174553.jpg" alt="Vzpomínky" loading="lazy" class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110">
-                </div>
-                <div class="group cursor-pointer aspect-[4/3] overflow-hidden rounded-sm bg-charcoal/50 border border-white/5 flex items-center justify-center" onclick="openModal(this.querySelector('img').src)">
-                    <img src="images/20240428_142813.jpg" alt="Vzpomínky" loading="lazy" class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110">
-                </div>
-                </div>
-        </div>
-    </section>
-
-    <section id="rsvp" class="py-24 relative z-10 overflow-hidden">
-        <div class="absolute inset-0 bg-nature-pattern bg-cover bg-center bg-fixed opacity-[0.05] z-0"></div>
-        <div class="max-w-4xl mx-auto px-6 lg:px-8 relative z-10">
+    <section id="galerie" class="py-24 bg-pine relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-serif font-bold text-white mb-6">Registrace</h2>
+                <h2 class="text-5xl font-serif font-bold text-white mb-6">Filip • Fíla • Fík • Fykusa</h2>
+                <div class="w-24 h-[1px] bg-wood mx-auto"></div>
             </div>
-            <div class="glass-panel p-8 sm:p-12 rounded-sm border-t-4 border-t-wood">
-                <form id="rsvp-form" class="space-y-8">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <input type="text" placeholder="Jméno a Příjmení *" required class="w-full px-4 py-3 bg-charcoal/60 border border-white/10 text-white focus:border-wood outline-none">
-                        <input type="text" placeholder="Přezdívka" class="w-full px-4 py-3 bg-charcoal/60 border border-white/10 text-white focus:border-wood outline-none">
-                    </div>
-                    <button type="submit" class="w-full bg-wood text-white font-semibold py-4 uppercase tracking-widest hover:bg-white hover:text-pine transition-all">Registrace</button>
+
+            <div class="gallery-container">
+                <div class="gallery-item" onclick="openModal('images/20230909_110710.jpg')"><img src="images/20230909_110710.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20231229_133309.jpg')"><img src="images/20231229_133309.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/IMG_20240109_195723_854.jpg')"><img src="images/IMG_20240109_195723_854.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20240119_120022.jpg')"><img src="images/20240119_120022.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20240125_200307.jpg')"><img src="images/20240125_200307.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20240204_135458.jpg')"><img src="images/20240204_135458.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20240204_174553.jpg')"><img src="images/20240204_174553.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20240428_142813.jpg')"><img src="images/20240428_142813.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20240510_164751.jpg')"><img src="images/20240510_164751.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20240511_112637.jpg')"><img src="images/20240511_112637.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20240525_151505.jpg')"><img src="images/20240525_151505.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20240610_143712.jpg')"><img src="images/20240610_143712.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20240701_200029.jpg')"><img src="images/20240701_200029.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20240701_203217.jpg')"><img src="images/20240701_203217.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20240717_200754.jpg')"><img src="images/20240717_200754.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20240812_121009.jpg')"><img src="images/20240812_121009.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20240814_112442.jpg')"><img src="images/20240814_112442.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20240818_112153.jpg')"><img src="images/20240818_112153.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20240824_144731.jpg')"><img src="images/20240824_144731.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20241129_193215.jpg')"><img src="images/20241129_193215.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20250207_104948.jpg')"><img src="images/20250207_104948.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20250321_201507.jpg')"><img src="images/20250321_201507.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/20250322_145328.jpg')"><img src="images/20250322_145328.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal('images/IMG-20250906-WA0011.jpg')"><img src="images/IMG-20250906-WA0011.jpg" loading="lazy"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="rsvp" class="py-24 bg-charcoal text-center relative z-10">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-5xl font-serif font-bold text-white mb-12">Registrace</h2>
+            <div class="glass-panel p-8 md:p-12 border-t-4 border-wood">
+                <form id="rsvp-form" class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                    <input type="text" placeholder="Jméno a Příjmení *" required class="w-full px-4 py-3 bg-charcoal/60 border border-white/10 text-white outline-none focus:border-wood">
+                    <input type="text" placeholder="Přezdívka" class="w-full px-4 py-3 bg-charcoal/60 border border-white/10 text-white outline-none focus:border-wood">
+                    <button type="submit" class="md:col-span-2 bg-wood text-white py-4 uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-pine transition-all">Registrace</button>
                 </form>
             </div>
         </div>
     </section>
 
-    <footer class="bg-[#0a0d0b] py-12 relative z-10 border-t border-white/5 text-center">
-        <span class="font-serif text-2xl font-bold tracking-widest text-sand opacity-50">eFko<span class="text-wood">50</span></span>
-        <p class="text-sand/30 text-sm mt-4 uppercase tracking-widest">&copy; 2026 Oslava Filipových padesátin</p>
+    <footer class="py-12 bg-black/50 text-center border-t border-white/5">
+        <p class="text-sand/30 text-sm uppercase tracking-widest">&copy; 2026 Oslava Filipových 50</p>
     </footer>
 
     <script>
         function openModal(src) {
             const modal = document.getElementById('photo-modal');
-            const modalImg = document.getElementById('modal-img');
-            modalImg.src = src;
+            const img = document.getElementById('modal-img');
+            img.src = src;
             modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Zamezí scrollování pozadí
+            document.body.style.overflow = 'hidden';
         }
-
         function closeModal() {
             document.getElementById('photo-modal').style.display = 'none';
-            document.body.style.overflow = 'auto'; // Vrátí scrollování
+            document.body.style.overflow = 'auto';
         }
-
-        // Zavření modalu klávesou Esc
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
-        });
+        window.onkeydown = function(e) { if (e.keyCode === 27) closeModal(); };
     </script>
-
 </body>
 </html>
