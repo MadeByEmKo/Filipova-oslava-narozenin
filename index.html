@@ -46,13 +46,35 @@
             backdrop-filter: blur(10px);
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            cursor: zoom-out;
         }
         #modal-img {
             max-width: 95%;
             max-height: 90vh;
             object-fit: contain;
+        }
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 3rem;
+            padding: 20px;
+            cursor: pointer;
+            user-select: none;
+            z-index: 1010;
+            transition: color 0.3s;
+        }
+        .nav-btn:hover { color: #D4AF37; }
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            z-index: 1010;
         }
         .gallery-item {
             aspect-ratio: 4/3;
@@ -90,7 +112,10 @@
 <body class="bg-charcoal text-sand font-sans antialiased selection:bg-golden selection:text-white">
 
     <div id="photo-modal" onclick="closeModal()">
-        <img id="modal-img" src="" alt="Zvětšený náhled">
+        <span class="close-btn">&times;</span>
+        <span class="nav-btn prev-btn" onclick="prevImg(event)">&#10094;</span>
+        <img id="modal-img" src="" alt="Zvětšený náhled" onclick="event.stopPropagation()">
+        <span class="nav-btn next-btn" onclick="nextImg(event)">&#10095;</span>
     </div>
 
     <nav class="fixed w-full z-50 bg-pine/90 backdrop-blur-md border-b border-white/5 h-20">
@@ -241,24 +266,22 @@
         <div class="max-w-7xl mx-auto px-6 text-center">
             <h2 class="text-5xl font-serif font-bold text-white mb-16">Filip, Fík, Fykus, Fíla</h2>
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                
-                <div class="gallery-item" onclick="openModal('images/IMG_20240109_195723_854.jpg')"><img src="images/IMG_20240109_195723_854.jpg" loading="lazy"></div>
-                <div class="gallery-item" onclick="openModal('images/20240510_164751.jpg')"><img src="images/20240510_164751.jpg" loading="lazy"></div>
-                <div class="gallery-item" onclick="openModal('images/20241129_193215.jpg')"><img src="images/20241129_193215.jpg" loading="lazy"></div>
-                <div class="gallery-item" onclick="openModal('images/20240814_112533.jpg')"><img src="images/20240814_112533.jpg" loading="lazy"></div>
-                <div class="gallery-item" onclick="openModal('images/20240511_112637.jpg')"><img src="images/20240511_112637.jpg" loading="lazy"></div>
-                <div class="gallery-item" onclick="openModal('images/20231229_133309.jpg')"><img src="images/20231229_133309.jpg" loading="lazy"></div>
-                <div class="gallery-item" onclick="openModal('images/20240119_120022.jpg')"><img src="images/20240119_120022.jpg" loading="lazy"></div>
-                <div class="gallery-item" onclick="openModal('images/20240204_174553.jpg')"><img src="images/20240204_174553.jpg" loading="lazy"></div>
-                <div class="gallery-item" onclick="openModal('images/20240525_151505.jpg')"><img src="images/20240525_151505.jpg" loading="lazy"></div>
-                <div class="gallery-item" onclick="openModal('images/20240717_200754.jpg')"><img src="images/20240717_200754.jpg" loading="lazy"></div>
-                <div class="gallery-item" onclick="openModal('images/20240812_121009.jpg')"><img src="images/20240812_121009.jpg" loading="lazy"></div>
-                <div class="gallery-item" onclick="openModal('images/20240824_144731.jpg')"><img src="images/20240824_144731.jpg" loading="lazy"></div>
-                <div class="gallery-item" onclick="openModal('images/20250207_104948.jpg')"><img src="images/20250207_104948.jpg" loading="lazy"></div>
-                <div class="gallery-item" onclick="openModal('images/20250321_201507.jpg')"><img src="images/20250321_201507.jpg" loading="lazy"></div>
-                <div class="gallery-item" onclick="openModal('images/20250322_145328.jpg')"><img src="images/20250322_145328.jpg" loading="lazy"></div>
-                <div class="gallery-item" onclick="openModal('images/IMG-20250906-WA0011.jpg')"><img src="images/IMG-20250906-WA0011.jpg" loading="lazy"></div>
-
+                <div class="gallery-item" onclick="openModal(0)"><img src="images/IMG_20240109_195723_854.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal(1)"><img src="images/20240510_164751.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal(2)"><img src="images/20241129_193215.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal(3)"><img src="images/20240814_112533.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal(4)"><img src="images/20240511_112637.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal(5)"><img src="images/20231229_133309.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal(6)"><img src="images/20240119_120022.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal(7)"><img src="images/20240204_174553.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal(8)"><img src="images/20240525_151505.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal(9)"><img src="images/20240717_200754.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal(10)"><img src="images/20240812_121009.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal(11)"><img src="images/20240824_144731.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal(12)"><img src="images/20250207_104948.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal(13)"><img src="images/20250321_201507.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal(14)"><img src="images/20250322_145328.jpg" loading="lazy"></div>
+                <div class="gallery-item" onclick="openModal(15)"><img src="images/IMG-20250906-WA0011.jpg" loading="lazy"></div>
             </div>
         </div>
     </section>
@@ -286,14 +309,58 @@
     </footer>
 
     <script>
-        function openModal(src) {
-            document.getElementById('modal-img').src = src;
+        const galleryImgs = Array.from(document.querySelectorAll('.gallery-item img')).map(img => img.src);
+        let currentIndex = 0;
+
+        function openModal(index) {
+            currentIndex = index;
+            updateModalImage();
             document.getElementById('photo-modal').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
+
         function closeModal() {
             document.getElementById('photo-modal').style.display = 'none';
             document.body.style.overflow = 'auto';
+        }
+
+        function updateModalImage() {
+            document.getElementById('modal-img').src = galleryImgs[currentIndex];
+        }
+
+        function nextImg(e) {
+            if (e) e.stopPropagation();
+            currentIndex = (currentIndex + 1) % galleryImgs.length;
+            updateModalImage();
+        }
+
+        function prevImg(e) {
+            if (e) e.stopPropagation();
+            currentIndex = (currentIndex - 1 + galleryImgs.length) % galleryImgs.length;
+            updateModalImage();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('photo-modal').style.display === 'flex') {
+                if (e.key === "ArrowRight") nextImg();
+                if (e.key === "ArrowLeft") prevImg();
+                if (e.key === "Escape") closeModal();
+            }
+        });
+
+        let touchstartX = 0;
+        let touchendX = 0;
+        const modal = document.getElementById('photo-modal');
+
+        modal.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; }, {passive: true});
+        modal.addEventListener('touchend', e => { 
+            touchendX = e.changedTouches[0].screenX; 
+            handleGesture();
+        }, {passive: true});
+
+        function handleGesture() {
+            if (touchendX < touchstartX - 60) nextImg();
+            if (touchendX > touchstartX + 60) prevImg();
         }
     </script>
 </body>
